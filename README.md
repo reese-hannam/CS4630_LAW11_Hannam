@@ -21,11 +21,12 @@ python visualizations.py
 All results are saved to the output/ folder.
 - results.txt - full model evaluation output
 - results.pkl - saved model results for visualizations
-- class_imbalance.png
-- roc_curves.png
-- confusion_matrices.png
-- model_comparison.png
-- feature_importance.png
+- class_imbalance.png — shows the class distribution before and after SMOTE was applied
+- roc_curves.png — compares each model's ability to distinguish attrition cases from non-attrition cases
+- confusion_matrices.png — shows how many attrition cases each model correctly caught versus missed
+- model_comparison.png — side by side comparison of precision, recall, F1, and AUC across all three models
+- feature_importance.png — shows which employee features the Random Forest relied on most when making predictions
+
 
 ## Models
 Three classifiers were trained and evaluated on the minority class (Attrition = Yes):
