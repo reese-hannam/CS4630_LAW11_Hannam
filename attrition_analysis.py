@@ -219,18 +219,6 @@ print(f"Best model by ROC-AUC:   {best_auc}")
 print("\nNote: F1 and AUC can point to different models on imbalanced data.")
 print("Note: See visualizations.py to generate all plots.")
 
-
-# test threshold 0.3 on KNN and Naive Bayes for comparison
-print("\n" + "=" * 55)
-print("THRESHOLD 0.65 TEST — KNN AND NAIVE BAYES")
-print("=" * 55)
-
-for name in ["KNN", "Naive Bayes"]:
-    y_pred_tuned = (results[name]["y_prob"] >= 0.65).astype(int)
-    print(f"\n{name} at threshold 0.65:")
-    print(classification_report(y_test, y_pred_tuned, target_names=["No", "Yes"]))
-    print(f"  Confusion Matrix:\n{confusion_matrix(y_test, y_pred_tuned)}")
-
 # save results for visualizations.py
 import pickle
 with open("output/results.pkl", "wb") as f:
