@@ -1,0 +1,177 @@
+=======================================================
+STEP 1: Dataset Overview
+=======================================================
+Dataset shape: (1470, 35)
+
+Attrition counts:
+Attrition
+No     1233
+Yes     237
+Name: count, dtype: int64
+
+Attrition rate: 16.1%
+
+=======================================================
+STEP 2: Preprocessing & Class Imbalance
+=======================================================
+Training set before SMOTE: {0: np.int64(986), 1: np.int64(190)}
+Training set after SMOTE:  {0: np.int64(986), 1: np.int64(986)}
+Test set (unchanged):      {0: np.int64(247), 1: np.int64(47)}
+
+=======================================================
+STEP 3: EDA Summary
+=======================================================
+
+Attrition rate by key features:
+
+  JobSatisfaction:
+JobSatisfaction
+1    22.837370
+2    16.428571
+3    16.515837
+4    11.328976
+
+  WorkLifeBalance:
+WorkLifeBalance
+1    31.250000
+2    16.860465
+3    14.221725
+4    17.647059
+
+  OverTime:
+OverTime
+0    10.436433
+1    30.528846
+
+Correlations with Attrition (sorted low to high):
+TotalWorkingYears         -0.171063
+MonthlyIncome             -0.159840
+Age                       -0.159205
+YearsAtCompany            -0.134392
+JobSatisfaction           -0.103481
+EnvironmentSatisfaction   -0.103369
+WorkLifeBalance           -0.063939
+NumCompaniesWorked         0.043494
+DistanceFromHome           0.077924
+
+Strongest positive correlations with Attrition:
+DistanceFromHome      0.077924
+NumCompaniesWorked    0.043494
+
+Strongest negative correlations with Attrition:
+TotalWorkingYears         -0.171063
+MonthlyIncome             -0.159840
+Age                       -0.159205
+YearsAtCompany            -0.134392
+JobSatisfaction           -0.103481
+EnvironmentSatisfaction   -0.103369
+WorkLifeBalance           -0.063939
+
+=======================================================
+STEP 4: Model Training & Hyperparameter Tuning
+=======================================================
+
+Tuning Random Forest...
+  Best params: {'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 200}
+
+Tuning K-Nearest Neighbors...
+  Best params: {'metric': 'manhattan', 'n_neighbors': 3, 'weights': 'distance'}
+
+Training Naive Bayes (GaussianNB)...
+  No hyperparameters to tune for GaussianNB
+
+=======================================================
+STEP 5: Model Evaluation
+=======================================================
+
+Random Forest:
+              precision    recall  f1-score   support
+
+          No       0.93      0.80      0.86       247
+         Yes       0.40      0.70      0.51        47
+
+    accuracy                           0.79       294
+   macro avg       0.67      0.75      0.69       294
+weighted avg       0.85      0.79      0.81       294
+
+  Confusion Matrix:
+[[198  49]
+ [ 14  33]]
+  ROC-AUC: 0.8039
+
+KNN:
+              precision    recall  f1-score   support
+
+          No       0.90      0.85      0.88       247
+         Yes       0.39      0.49      0.43        47
+
+    accuracy                           0.80       294
+   macro avg       0.64      0.67      0.65       294
+weighted avg       0.82      0.80      0.80       294
+
+  Confusion Matrix:
+[[211  36]
+ [ 24  23]]
+  ROC-AUC: 0.6950
+
+Naive Bayes:
+              precision    recall  f1-score   support
+
+          No       0.90      0.52      0.66       247
+         Yes       0.22      0.70      0.33        47
+
+    accuracy                           0.55       294
+   macro avg       0.56      0.61      0.50       294
+weighted avg       0.79      0.55      0.61       294
+
+  Confusion Matrix:
+[[129 118]
+ [ 14  33]]
+  ROC-AUC: 0.7152
+
+=======================================================
+MODEL SUMMARY (minority class: Attrition = Yes)
+=======================================================
+Model            Precision  Recall      F1     AUC
+-------------------------------------------------------
+Random Forest        0.402   0.702   0.512   0.804
+KNN                  0.390   0.489   0.434   0.695
+Naive Bayes          0.219   0.702   0.333   0.715
+
+Best model by F1-Score:  Random Forest
+Best model by ROC-AUC:   Random Forest
+
+Note: F1 and AUC can point to different models on imbalanced data.
+Note: See visualizations.py to generate all plots.
+
+=======================================================
+THRESHOLD 0.65 TEST — KNN AND NAIVE BAYES
+=======================================================
+
+KNN at threshold 0.65:
+              precision    recall  f1-score   support
+
+          No       0.89      0.86      0.87       247
+         Yes       0.37      0.43      0.40        47
+
+    accuracy                           0.79       294
+   macro avg       0.63      0.64      0.64       294
+weighted avg       0.80      0.79      0.80       294
+
+  Confusion Matrix:
+[[213  34]
+ [ 27  20]]
+
+Naive Bayes at threshold 0.65:
+              precision    recall  f1-score   support
+
+          No       0.91      0.58      0.71       247
+         Yes       0.24      0.68      0.35        47
+
+    accuracy                           0.60       294
+   macro avg       0.57      0.63      0.53       294
+weighted avg       0.80      0.60      0.65       294
+
+  Confusion Matrix:
+[[144 103]
+ [ 15  32]]
